@@ -1,10 +1,11 @@
-"""Transform raw data into processed data."""
+# transform.py
+import pandas as pd
+import os
 
+df = pd.read_parquet('data/raw/sales.parquet')
+result = df.groupby('producto')['venta'].sum().reset_index()
 
-def transform_data():
-    """Transform data from data/raw and save it to data/processed."""
-    pass
+print(result.head())
 
-
-if __name__ == "__main__":
-    transform_data()
+os.makedirs('data/processed', exist_ok=True)
+result.to_parquet('data/processed/sales_summary.parquet')
